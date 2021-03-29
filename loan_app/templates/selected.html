@@ -24,7 +24,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for loan in loan_list %}
+                {% for loan in eval_selected %}
                 <tr align=center>
                     <th scope="row">{{ loan.loan_id }}</th>
                     <td>{{ loan.bank_name }}</td>
@@ -34,21 +34,6 @@
                     <td>{{ loan.rate_min }}</td>
                     <td>{{ loan.rate_max }}</td>
                     <td>{{ loan.rate_avg }}</td>
-                    {% if loan.score == None: %}
-                        <td>
-                            <label for="ForScore"></label>
-                            <select name={{loan.loan_id}}>
-                                <option value=False>-</option>
-                                <option value=1>1</option>
-                                <option value=2>2</option>
-                                <option value=3>3</option>
-                                <option value=4>4</option>
-                                <option value=5>5</option>
-                            </select>
-                        </td>
-                    {% else %}
-                        <td>{{loan.score}}</td>
-                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>

@@ -34,14 +34,15 @@ def get_loan_api():
     loan_df.drop(['dcls_month', 'fin_co_no', 'fin_prdt_cd', 'rpay_type', 'lend_rate_type'], axis=1, inplace=True)
     loan_df = loan_df[['kor_co_nm', 'fin_prdt_nm', 'rpay_type_nm', 'lend_rate_type_nm', 'lend_rate_min', 'lend_rate_max', 'lend_rate_avg']]
     loan_df.columns = ['금융회사', '대출 상품명', '상환방식', '대출 금리유형', '최저 대출금리(%)', '최고 대출금리(%)', '평균 대출금리(%)']
-
+    loan_df['최저 대출금리(%)'].fillna(float(2.7), inplace=True)
+    loan_df['최고 대출금리(%)'].fillna(float(2.7), inplace=True)
+    null_avg = ((loan_df['최저 대출금리(%)']+loan_df['최고 대출금리(%)'])/2)
+    loan_df['평균 대출금리(%)'].fillna(round(null_avg, 2), inplace=True)
     # print(loan_df)
 
     # print(loan_df.iloc[0])
 
     # print(loan_df.iloc[0].to_dict())
-
-    
 
     for i in range(215):
         bank_name=loan_df.iloc[i].to_dict()['금융회사']
@@ -55,7 +56,7 @@ def get_loan_api():
         loan_up = Loan(bank_name=bank_name, loan_name=loan_name, rpay=rpay, rate_type=rate_type, 
         rate_min=rate_min, rate_max=rate_max, rate_avg=rate_avg)
         
-        print(i, '----------------------------------------------------------')
+        print(i)
         db.session.add(loan_up)
         db.session.commit()
 

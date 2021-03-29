@@ -17,6 +17,7 @@ class Loan(db.Model):
     rate_min = db.Column(db.Float())
     rate_max = db.Column(db.Float())
     rate_avg = db.Column(db.Float())
+    score = db.Column(db.Integer())
 
     def __repr__(self):
         return f"Loan {self.loan_id}"
