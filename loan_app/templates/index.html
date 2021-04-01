@@ -1,57 +1,58 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 
+{% block main_body %}
+    <div class="container" style="border: 2px solid #d4edda;padding: 30px;margin: 50px auto;width: 1300px;border-radius: 20px;">
+        <div class="row custyle" style="margin: 0 auto; width: 1200px;">
 
-<div class="container" style="border: 2px solid #d4edda;padding: 30px;margin: 50px auto;width: 1300px;border-radius: 20px;">
-    <div class="row custyle" style="margin: 0 auto; width: 1200px;">
+        <table class="table table-striped custab">
+            <form method="POST">
+                <div class="save_btn_box">
+                    <input type="submit" id=save_btn name='add' value="저장">
+                </div>
+                
+                <thead>
+                    <tr align=center>
+                        <th scope="col">#</th>
+                        <th scope="col">금융회사</th>
+                        <th scope="col">대출 상품명</th>
+                        <th scope="col">상환방식</th>
+                        <th scope="col">대출 금리유형</th>
+                        <th scope="col">최저 대출금리(%)</th>
+                        <th scope="col">최고 대출금리(%)</th>
+                        <th scope="col">평균 대출금리(%)</th>
+                        <th scope="col">평가</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for loan in loan_list %}
+                    <tr align=center>
+                        <th scope="row">{{ loan.loan_id }}</th>
+                        <td>{{ loan.bank_name }}</td>
+                        <td>{{ loan.loan_name }}</td>
+                        <td>{{ loan.rpay }}</td>
+                        <td>{{ loan.rate_type }}</td>
+                        <td>{{ loan.rate_min }}</td>
+                        <td>{{ loan.rate_max }}</td>
+                        <td>{{ loan.rate_avg }}</td>
+                        {% if loan.score == None: %}
+                            <td>
+                                <label for="ForScore"></label>
+                                <select name={{loan.loan_id}}>
+                                    <option value=False>-</option>
+                                    <option value=1>1</option>
+                                    <option value=2>2</option>
+                                    <option value=3>3</option>
+                                    <option value=4>4</option>
+                                    <option value=5>5</option>
+                                </select>
+                            </td>
+                        {% else %}
+                            <td>{{loan.score}}</td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </form>
 
-    <table class="table table-striped custab">
-		<form method="POST">
-            <div class="save_btn_box">
-                <input type="submit" id=save_btn name='add' value="저장">
-            </div>
-             
-            <thead>
-                <tr align=center>
-                    <th scope="col">#</th>
-                    <th scope="col">금융회사</th>
-                    <th scope="col">대출 상품명</th>
-                    <th scope="col">상환방식</th>
-                    <th scope="col">대출 금리유형</th>
-                    <th scope="col">최저 대출금리(%)</th>
-                    <th scope="col">최고 대출금리(%)</th>
-                    <th scope="col">평균 대출금리(%)</th>
-                    <th scope="col">평가</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for loan in loan_list %}
-                <tr align=center>
-                    <th scope="row">{{ loan.loan_id }}</th>
-                    <td>{{ loan.bank_name }}</td>
-                    <td>{{ loan.loan_name }}</td>
-                    <td>{{ loan.rpay }}</td>
-                    <td>{{ loan.rate_type }}</td>
-                    <td>{{ loan.rate_min }}</td>
-                    <td>{{ loan.rate_max }}</td>
-                    <td>{{ loan.rate_avg }}</td>
-                    {% if loan.score == None: %}
-                        <td>
-                            <label for="ForScore"></label>
-                            <select name={{loan.loan_id}}>
-                                <option value=False>-</option>
-                                <option value=1>1</option>
-                                <option value=2>2</option>
-                                <option value=3>3</option>
-                                <option value=4>4</option>
-                                <option value=5>5</option>
-                            </select>
-                        </td>
-                    {% else %}
-                        <td>{{loan.score}}</td>
-                    {% endif %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </form>
-
-    </table>
+        </table>
+{% endblock %}
